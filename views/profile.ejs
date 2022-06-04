@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+   
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+    <style>
+      #pht {
+        position: relative;
+        width:120px;
+        height:120px;
+        background-color:rgb(208, 208, 208);
+        margin-top:10px;
+        border-radius:10px;
+        overflow: hidden;
+        border: 3px solid rgba(255, 255, 255, 0.534) ;
+      }
+      .img img{
+        width:100%;
+        height:100%;
+        object-fit: cover;
+      }
+      .overlay{
+        opacity: 0;
+        position: absolute;
+        width:100%;
+        height:100%;
+        background-color:rgba(0, 0, 0, 0.463);
+      }
+      .overlay:hover{
+        opacity: 1;
+      }
+      #pro{
+        display: none;
+      } 
+   </style>
+  </head>
+  <body>
+    <div class="container">
+      <form  id="pro" action="/upload" method="post" enctype="multipart/form-data" >
+        <input id="overlay" type="file" name="image">
+        <input id="submit" type="submit">
+        
+      </form>
+      <div id="pht">
+        <div class="overlay"></div>
+        <div class="img">
+          <img src="/images/upload/<%=loggedinuser.profilepic %>" alt="">
+        </div>
+
+      </div>
+      <h4 class="mt-3">hello, <%= loggedinuser.name %> </h4>
+      <a href="/logout">logout</a>
+      <a class="btn btn-primary" href="/allp">All Posts</a>
+      <form class="mt-3" action="/createpost" method="post">
+          <textarea name="newpost" id="" cols="180" rows="3"></textarea>
+          <button type="submit" class="btn btn-primary">post it</button>
+        </form>
+    </div>
+    <div class="container">
+        <div class="mt-2"></div>
+        <hr>
+    <% loggedinuser.posts.forEach(function(us){ %>
+        <h5> <%= us.post1 %> </h5>
+        <p><%= us.likes.length %> Likes</p>
+        <a href="/like/<%= us._id %>">like</a>
+        <div class="container"> 
+    <% }) %>
+    </div>
+
+    <script>
+      document.querySelector('.overlay').addEventListener("click", function(dets){ 
+        document.querySelector('#overlay').click();
+      })
+      document.querySelector('#overlay').addEventListener("change",function(){
+        document.querySelector('#submit').click();
+      })
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  </body>
+</html>
